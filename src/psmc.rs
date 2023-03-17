@@ -31,9 +31,6 @@ impl Save {
         let data_size = ((header[0x04] as u32) | ((header[0x05] as u32) << 8)
         | ((header[0x06] as u32) << 16) | ((header[0x07] as u32) << 24)) as usize;
         let filename_err_message = "mcs filename is not ascii";
-        let mut filename_bytes: [u8; 21] = header[0xA .. 0x1F].try_into().unwrap();
-        filename_bytes[20] = 0;
-
         let filename = match string_from_u8_nul_utf8(&header[0xA .. 0x1E]) {
             Err(_) => panic!("{}", filename_err_message),
             Ok(res) => res
